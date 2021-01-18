@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Getter
 @Entity
 @ToString
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Table(name="subjects")
 public class Subject {
 
@@ -24,4 +23,5 @@ public class Subject {
 		this.subject = subject;
 		this.description = description;
 	}
+	public Subject(){}
 }

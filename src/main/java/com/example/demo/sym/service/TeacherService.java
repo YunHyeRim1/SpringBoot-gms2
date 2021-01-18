@@ -5,16 +5,12 @@ import static com.example.demo.cmm.utl.Util.integer;
 import static com.example.demo.cmm.utl.Util.mySkip;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.reducing;
-import static java.util.stream.Collectors.summarizingInt;
 import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,14 +19,13 @@ import com.example.demo.cmm.utl.Box;
 import com.example.demo.cmm.utl.DummyGenerator;
 import com.example.demo.cmm.utl.Pagination;
 import com.example.demo.sts.service.GradeVo;
-import com.example.demo.sts.service.SubjectMapper;
+import com.example.demo.sts.service.SubjectRepository;
 import static com.example.demo.cmm.utl.Util.*;
-import static java.util.stream.Collectors.*;
 
 @Service
 public class TeacherService {
-	@Autowired TeacherMapper teacherMapper;
-	@Autowired SubjectMapper subjectMapper;
+	@Autowired TeacherRepository teacherRepository;
+	@Autowired SubjectRepository subjectRepository;
 	@Autowired DummyGenerator dummy;
 	@Autowired Box<Object> bx;
 	
@@ -42,20 +37,19 @@ public class TeacherService {
 
 		for(int i = 0; i < count; i++) {
 			t = dummy.makeTeacher(i+1);
-			tlist.add(t);
+			teacherRepository.save(t);
 		}
-    	teacherMapper.insertMany(tlist);
     }
 
-	public int register(Teacher teacher) {
-		// TODO Auto-generated method stub
-		return teacherMapper.insert(teacher);
+	public void register(Teacher teacher) {
+		teacherRepository.save(teacher);
 	}
+
 	public Map<?,?> selectAllBySubject(Box<String> param) {
 		String pageNum = param.get("pageNum").toString();
 		String pageSize = param.get("pageSize").toString();
 
-		List<GradeVo> list = teacherMapper.selectAll(param.get());
+		List<Teacher> list = teacherRepository.findAll();
 		
 		//IntSummaryStatistics is = list.stream().collect(summarizingInt(GradeVo::getScore));// 204
 			IntSummaryStatistics is = null;
@@ -75,9 +69,8 @@ public class TeacherService {
 									   integer.apply(pageNum), 
 									   list.size()));   
 		
-		bx.put("subjects",subjectMapper.selectAllSubject()
-					    	.stream()
-					    	.collect(joining(",")));
+		bx.put("subjects", subjectRepository.findAll()
+					    	.stream());
 		/*
 		Optional<GradeVo> highScoreGrade = list.stream()
 				.collect(reducing( (g1, g2) -> g1.getScore() > g2.getScore() ? g1 : g2 )); */
