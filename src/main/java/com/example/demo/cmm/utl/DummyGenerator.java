@@ -171,7 +171,7 @@ public class DummyGenerator {
 	}
 	
 	public Grade makeGrade(int stuNum, int subNum) {
-		return new Grade(stuNum, subNum, makeExamdate(), makeScore().get(0));
+		return null; // new Grade(stuNum, subNum, makeExamdate(), makeScore().get(0));
 	}
 	
 	/*********************************
@@ -179,13 +179,14 @@ public class DummyGenerator {
 	 ********************************* 
 	 */
 	public Teacher makeTeacher(int i) {
-		return new Teacher(
+		return null;
+		/*return new Teacher(
 				makeUsername(), 
 				makeEmail(), 
 				"1", // 비번
 				Path.DEFAULT_PROFILE.toString(),
 				i //makeTeacher()를 1 ~ 5까지만 생성하기 위해
-				);  
+				);  */
 	}
 
 	/*********************************

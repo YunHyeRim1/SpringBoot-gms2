@@ -19,11 +19,8 @@ public class Reply {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "rep_num") private int repNum;
     @Column(name = "content") private String content;
-    @Column(name = "art_num") private int artNum;
 
-    @Builder
-    private Reply(String content, int artNum) {
-        this.content = content;
-        this.artNum = artNum;
-    }
+    @ManyToOne
+    @JoinColumn(name = "art_num")
+    private Article article;
 }

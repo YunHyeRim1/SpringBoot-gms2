@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import static com.example.demo.cmm.utl.Util.*;
 import static java.util.stream.Collectors.*;
 
-@Component("page") @Data @Lazy @NoArgsConstructor
+@Component("page") @Data @Lazy
 public class Pagination {
 	private int totalCount, startRow, endRow,
 			pageCount, pageSize,  startPage, endPage, pageNum,
